@@ -3,18 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Test</title>
+    <title>ESP32 Controls</title>
+
+    <!-- Include the mqtt.min.js library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/2.0.9/mqtt.min.js"></script>
 </head>
 <body>
+    <div class="vertical-slider-container">
+        <label for="verticalSlider">Vertical Slider:</label>
+        <input type="range" id="verticalSlider" orient="vertical" min="0" max="180" step="1">
+    </div>
+
     <div>
-        <button id="testButton">Test Button</button>
+        <label for="horizontalSlider">Horizontal Slider:</label>
+        <input type="range" id="horizontalSlider" min="0" max="180" step="1">
+    </div>
+
+    <div>
+        <button id="button1">Button 1</button>
+        <button id="button2">Button 2</button>
+        <button id="button3">Button 3</button>
+        <button id="button4">Button 4</button>
+        <button id="button5">Button 5</button>
+        <button id="button6">Button 6</button>
     </div>
 
     <script>
-        var testButton = document.getElementById("testButton");
+        // Your MQTT-related code using the mqtt library
+        var verticalSlider = document.getElementById("verticalSlider");
+        var horizontalSlider = document.getElementById("horizontalSlider");
+        var buttons = document.querySelectorAll("button");
 
-        testButton.addEventListener("click", function() {
-            console.log("Button clicked!");
+        // Change this to your Mosquitto broker IP
+        var mqttBroker = "ws://39.51.94.66:1883";
+
+        var client = mqtt.connect(mqttBroker);
+
+        verticalSlider.addEventListener("input", function() {
+            var value = verticalSlider.value;
+            client.publish("servo/control/vertical", value);
+        });
+
+        horizontalSlider.addEventListener("input", function() {
+            var value = horizontalSlider.value;
+            client.publish("servo/control/horizontal", value);
+        });
+
+        buttons.forEach(function(button, index) {
+            button.addEventListener("click", function() {
+                var buttonValue = "Button " + (index + 1);
+                client.publish("button/control", buttonValue);
+            });
         });
     </script>
 </body>
