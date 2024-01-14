@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP32 Controls</title>
+    <style>
+        .vertical-slider-container {
+            display: inline-block;
+            transform: rotate(90deg);
+        }
+
+        .vertical-slider-container input {
+            transform: rotate(-90deg);
+        }
+    </style>
 </head>
 <body>
-    <div>
+    <div class="vertical-slider-container">
         <label for="verticalSlider">Vertical Slider:</label>
         <input type="range" id="verticalSlider" orient="vertical" min="0" max="180" step="1">
     </div>
