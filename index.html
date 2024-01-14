@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Servo Control</title>
+</head>
+<body>
+    <input type="range" id="servoSlider" min="0" max="180" step="1">
+    <button id="controlButton">Control Servo</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/2.0.9/mqtt.min.js"></script>
+    <script>
+        var slider = document.getElementById("servoSlider");
+        var button = document.getElementById("controlButton");
+
+        // Change this to your Mosquitto broker IP
+        var mqttBroker = "ws://your-mosquitto-broker-ip:1883";
+
+        var client = mqtt.connect(mqttBroker);
+
+        slider.addEventListener("input", function() {
+            var value = slider.value;
+            client.publish("servo/control", value);
+        });
+
+        button.addEventListener("click", function() {
+            var value = slider.value;
+            client.publish("servo/control", value);
+        });
+    </script>
+</body>
+</html>
