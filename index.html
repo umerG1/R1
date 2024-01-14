@@ -4,16 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP32 Controls</title>
-    <style>
-        .vertical-slider-container {
-            display: inline-block;
-            transform: rotate(90deg);
-        }
 
-        .vertical-slider-container input {
-            transform: rotate(-90deg);
-        }
-    </style>
+    <!-- Include the mqtt.min.js library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/2.0.9/mqtt.min.js"></script>
 </head>
 <body>
     <div class="vertical-slider-container">
@@ -32,11 +25,11 @@
         <button id="button3">Button 3</button>
         <button id="button4">Button 4</button>
         <button id="button5">Button 5</button>
-        <button id="button6">Button 6</button>
+        
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/2.0.9/mqtt.min.js"></script>
     <script>
+        // Your MQTT-related code using the mqtt library
         var verticalSlider = document.getElementById("verticalSlider");
         var horizontalSlider = document.getElementById("horizontalSlider");
         var buttons = document.querySelectorAll("button");
