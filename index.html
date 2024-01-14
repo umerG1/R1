@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP32 Controls</title>
 
-    <!-- Include the mqtt.min.js library from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/2.0.9/mqtt.min.js"></script>
+    <!-- Include the locally hosted mqtt.min.js library -->
+    <script src="js/mqtt.min.js"></script>
 </head>
 <body>
     <div class="vertical-slider-container">
@@ -29,7 +29,7 @@
     </div>
 
     <script>
-        // Your MQTT-related code using the mqtt library
+        // Your MQTT-related code using the locally hosted mqtt library
         var verticalSlider = document.getElementById("verticalSlider");
         var horizontalSlider = document.getElementById("horizontalSlider");
         var buttons = document.querySelectorAll("button");
@@ -57,4 +57,3 @@
         });
     </script>
 </body>
-</html>
