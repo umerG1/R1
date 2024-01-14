@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP32 Controls</title>
 
-    <!-- Include the locally hosted mqtt.min.js library -->
-    <script src="js/mqtt.min.js"></script>
+    <!-- Include the Paho MQTT library -->
+    <script src="js/mqttws31.js"></script>
 </head>
 <body>
     <div class="vertical-slider-container">
@@ -25,11 +25,11 @@
         <button id="button3">Button 3</button>
         <button id="button4">Button 4</button>
         <button id="button5">Button 5</button>
-        <button id="button6">Button 6</button>
+        //<button id="button6">Button 6</button>
     </div>
 
     <script>
-        // Your MQTT-related code using the locally hosted mqtt library
+        // Your MQTT-related code using the Paho MQTT library
         var verticalSlider = document.getElementById("verticalSlider");
         var horizontalSlider = document.getElementById("horizontalSlider");
         var buttons = document.querySelectorAll("button");
@@ -37,23 +37,30 @@
         // Change this to your Mosquitto broker IP
         var mqttBroker = "ws://39.51.94.66:1883";
 
-        var client = mqtt.connect(mqttBroker);
+        var client = new Paho.MQTT.Client(mqttBroker, "clientId");
 
-        verticalSlider.addEventListener("input", function() {
-            var value = verticalSlider.value;
-            client.publish("servo/control/vertical", value);
-        });
+        client.connect({ onSuccess: onConnect });
 
-        horizontalSlider.addEventListener("input", function() {
-            var value = horizontalSlider.value;
-            client.publish("servo/control/horizontal", value);
-        });
-
-        buttons.forEach(function(button, index) {
-            button.addEventListener("click", function() {
-                var buttonValue = "Button " + (index + 1);
-                client.publish("button/control", buttonValue);
+        function onConnect() {
+            console.log("Connected to MQTT broker");
+            
+            verticalSlider.addEventListener("input", function() {
+                var value = verticalSlider.value;
+                client.send("servo/control/vertical", value);
             });
-        });
+
+            horizontalSlider.addEventListener("input", function() {
+                var value = horizontalSlider.value;
+                client.send("servo/control/horizontal", value);
+            });
+
+            buttons.forEach(function(button, index) {
+                button.addEventListener("click", function() {
+                    var buttonValue = "Button " + (index + 1);
+                    client.send("button/control", buttonValue);
+                });
+            });
+        }
     </script>
 </body>
+</html>
